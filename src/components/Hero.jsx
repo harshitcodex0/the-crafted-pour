@@ -10,7 +10,7 @@ const Hero = () => {
 
     const videoRef = useRef();
 
-    const isMobile = useMediaQuery({maxWidth: 767})
+    const isMobile = useMediaQuery({maxWidth: 767});
 
     useGSAP(() => {
 
@@ -49,15 +49,15 @@ const Hero = () => {
         const startValue = isMobile ? 'top 50%' : 'center 60%';
         const endValue = isMobile ? '120% top ' : 'bottom top';
 
-        const tl = gsap.timeline({
+        let tl = gsap.timeline({
             scrollTrigger: {
-                trigger: '.video',
+                trigger: 'video',
                 start: startValue,
                 end: endValue,
                 scrub: true,
                 pin: true,
-            }
-        })
+            },
+        });
 
         videoRef.current.addEventListener("loadedmetadata" ,() => {
             tl.to(videoRef.current, {
@@ -69,7 +69,7 @@ const Hero = () => {
 
   return (
       <>
-    <section id= "hero" className="noisy relative z-10">
+    <section id= "hero" className="noisy">
 
 
       <h1 className="title">Martini</h1>
@@ -105,11 +105,10 @@ const Hero = () => {
       </div>
     </section>
 
-    <div className="video absolute inset-0 z-0">
+    <div className="video absolute inset-0">
         <video
             ref={videoRef}
-            src="/videos/input.mp4"
-            autoPlay
+            src="/videos/output.mp4"
             muted
             playsInline
             preload="auto"
