@@ -1,9 +1,16 @@
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { SplitText } from "gsap/all"
+import {useRef} from "react";
+import {useMediaQuery} from "react-responsive";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(SplitText);
+gsap.registerPlugin(SplitText, useGSAP, ScrollTrigger);
 const Hero = () => {
+
+    const videoRef = useRef();
+
+    const isMobile = useMediaQuery({maxWidth: 767})
 
     useGSAP(() => {
 
@@ -38,44 +45,79 @@ const Hero = () => {
         })
         .to('.right-leaf', {y: 300}, 0)
         .to('.left-leaf', {y: -300}, 0)
-    }, [])
+
+        const startValue = isMobile ? 'top 50%' : 'center 60%';
+        const endValue = isMobile ? '120% top ' : 'bottom top';
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.video',
+                start: startValue,
+                end: endValue,
+                scrub: true,
+                pin: true,
+            }
+        })
+
+        videoRef.current.addEventListener("loadedmetadata" ,() => {
+            tl.to(videoRef.current, {
+                currentTime: videoRef.current.duration
+            })
+        })
+
+    }, []);
+
   return (
+      <>
+    <section id= "hero" className="noisy relative z-10">
 
-    <section id= "hero" className="noisy">
-    <h1 className="title">Martini</h1>
 
-    <img src="/images/hero-left-leaf.png" alt="Left Leaf" 
-        className="left-leaf"
-    />
-    <img src="/images/hero-right-leaf.png" alt="Right Leaf"
-        className="right-leaf"
-    />
+      <h1 className="title">Martini</h1>
 
-    <div className="body">
-        <div className="content">
-            <div className="space-y-5 hidden md:block ">
-                <p>Cool. Crisp. Classic.</p>
-                <p className="subtitle">
-                    Sip the Spirit <br /> of Summer
-                </p>
-            </div>
+      <img src="/images/hero-left-leaf.png" alt="Left Leaf" 
+          className="left-leaf"
+      />
+      <img src="/images/hero-right-leaf.png" alt="Right Leaf"
+          className="right-leaf"
+      />
 
-            <div className="view-cocktails">
-                <p className="subtitle">
-                    Every cocktail on our menu is a blend of premium
-                    ingredients, creative flair, and timeless recipes -
-                    designed to delight your senses.
-                </p>
+      <div className="body">
+          <div className="content">
+              <div className="space-y-5 hidden md:block ">
+                  <p>Cool. Crisp. Classic.</p>
+                  <p className="subtitle">
+                      Sip the Spirit <br /> of Summer
+                  </p>
+              </div>
 
-                <a href="#cocktails">View Cocktails</a>
+              <div className="view-cocktails">
+                  <p className="subtitle">
+                      Every cocktail on our menu is a blend of premium
+                      ingredients, creative flair, and timeless recipes-designed to delight your senses.
+                  </p>
 
-            </div>
+                  <a href="#cocktails">View Cocktails</a>
 
-        </div>
+              </div>
 
-    </div>
+          </div>
+
+      </div>
     </section>
-    
+
+    <div className="video absolute inset-0 z-0">
+        <video
+            ref={videoRef}
+            src="/videos/input.mp4"
+            autoPlay
+            muted
+            playsInline
+            preload="auto"
+            className="w-full h-full object-cover"
+        />
+    </div>
+
+    </>
   )
 }
 
