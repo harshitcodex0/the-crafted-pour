@@ -120,17 +120,17 @@ const socials = [
   {
     name: "Instagram",
     icon: "/images/insta.png",
-    url: "#",
+    url: "https://www.instagram.com/harshit13c/",
   },
   {
     name: "X (Twitter)",
     icon: "/images/x.png",
-    url: "#",
+    url: "https://x.com/HarshSi82158470",
   },
   {
-    name: "Facebook",
-    icon: "/images/fb.png",
-    url: "#",
+    name: "Github",
+    icon: "/images/github.png",
+    url: "https://github.com/harshitcodex0",
   },
 ];
 
